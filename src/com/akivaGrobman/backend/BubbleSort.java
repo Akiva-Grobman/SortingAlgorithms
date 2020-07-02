@@ -2,44 +2,22 @@ package com.akivaGrobman.backend;
 
 import java.util.List;
 
-public class BubbleSort implements SortingAlgorithm{
-
-    private final List<Integer> list;
-    private int lastUnsorted;
-    private int i;
-    private boolean swapped;
-    private boolean checkedWholeList;
+public class BubbleSort extends SortingAlgorithm{
 
     public BubbleSort(List<Integer> list) {
-        this.list = list;
-        lastUnsorted = list.size();
-        i = 1;
-        swapped = true;
-        checkedWholeList = false;
+        super(list);
     }
 
     @Override
     public void sort() {
-        if(i == lastUnsorted) {
-            i = 1;
-            swapped = true;
-            checkedWholeList = true;
-            lastUnsorted--;
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = 0; j < list.size() - i - 1; j++) {
+                if (list.get(j) > list.get(j + 1)) {
+                    swap(j, j + 1);
+                    updateDisplay();
+                }
+            }
         }
-        if(list.get(i - 1) > list.get(i)) {
-            int temp = list.get(i - 1);
-            list.set(i - 1, list.get(i));
-            list.set(i, temp);
-            swapped = true;
-        } else if(checkedWholeList) {
-            swapped = false;
-        }
-        i++;
-    }
-
-    @Override
-    public boolean isSorted() {
-        return !swapped;
     }
 
 }

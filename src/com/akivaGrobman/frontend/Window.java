@@ -31,4 +31,5 @@ public class Window extends JFrame {
     public void displayFinish(String sortName, int changeCount) {
         sortingDisplay.displayFinish(sortName, changeCount);
     }
+
 }

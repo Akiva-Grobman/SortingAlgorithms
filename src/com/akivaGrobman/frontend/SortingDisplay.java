@@ -2,7 +2,6 @@ package com.akivaGrobman.frontend;
 
 import static com.akivaGrobman.frontend.Window.*;
 
-import javax.print.DocFlavor;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -13,12 +12,12 @@ class SortingDisplay extends JPanel {
     private final int MINIMUM_HEIGHT = 10;
     private final int HEIGHT_MARGIN = 10;
     private List<Integer> list;
-    private boolean isDone;
+    private boolean isSorted;
     private int changeCount;
     private String sortName;
 
     SortingDisplay() {
-        isDone = false;
+        isSorted = false;
         setBackground(green);
     }
 
@@ -30,7 +29,7 @@ class SortingDisplay extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         final double WIDTH_MARGIN = (getWidth() / 2.0) / (double) list.size();
-        int x = (int)WIDTH_MARGIN;
+        int x = (int) WIDTH_MARGIN;
         int y;
         int yResize = 1;
         int minY = Integer.MAX_VALUE;
@@ -56,7 +55,7 @@ class SortingDisplay extends JPanel {
             }
             x += (2 * WIDTH_MARGIN);
         }
-        if(isDone) {
+        if(isSorted) {
             Font font = new Font("arial", Font.ITALIC, 50);
             g.setFont(font);
             g.drawString("Done!", 50, 100);
@@ -69,7 +68,7 @@ class SortingDisplay extends JPanel {
     }
 
     public void displayFinish(String sortName, int changeCount) {
-        isDone = true;
+        isSorted = true;
         this.changeCount = changeCount;
         this.sortName = sortName;
     }

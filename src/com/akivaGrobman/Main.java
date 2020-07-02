@@ -11,22 +11,15 @@ public class Main {
 
     private static Window window;
 
-    @SuppressWarnings("BusyWait")
     public static void main(String[] args) throws InterruptedException {
-        int changeCount = 0;
         window = new Window();
         List<Integer> list = new ArrayList<>();
         for (int i = 50; i > 0; i--) {
             list.add(i);
         }
         SortingAlgorithm sortingAlgorithm = getSortingAlgorithm(list);
-        do {
-            sortingAlgorithm.sort();
-            updateDisplay(list);
-            sleep(5);
-            changeCount++;
-        } while (!sortingAlgorithm.isSorted());
-        window.displayFinish(sortingAlgorithm.getClass().getSimpleName(), changeCount);
+        sortingAlgorithm.sort();
+        window.displayFinish(sortingAlgorithm.getClass().getSimpleName(), sortingAlgorithm.getChangeCount());
         sleep(3000);
         System.exit(0);
 
@@ -37,6 +30,7 @@ public class Main {
     }
 
     public static void updateDisplay(List<Integer> list) {
+        window.validate();
         window.updateList(list);
     }
 
