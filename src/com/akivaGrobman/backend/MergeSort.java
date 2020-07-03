@@ -41,17 +41,23 @@ public class MergeSort extends SortingAlgorithm {
         while (i < newLeftMiddle && j < newRightMiddle) {
             if (leftArray[i] <= rightArray[j]) {
                 list.set(k, leftArray[i]);
+                updateSwapCount();
+                updateDisplay();
                 i++;
             }
             else {
                 list.set(k, rightArray[j]);
+                updateSwapCount();
+                updateDisplay();
                 j++;
             }
+            updateSwapCount();
             updateDisplay();
             k++;
         }
         while (i < newLeftMiddle) {
             list.set(k, leftArray[i]);
+            updateSwapCount();
             updateDisplay();
             i++;
             k++;
