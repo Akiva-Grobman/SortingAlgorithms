@@ -13,7 +13,7 @@ class SortingDisplay extends JPanel {
     private final int HEIGHT_MARGIN = 10;
     private List<Integer> list;
     private boolean isSorted;
-    private int changeCount;
+    private int swapCount;
     private String sortName;
 
     SortingDisplay() {
@@ -59,7 +59,7 @@ class SortingDisplay extends JPanel {
             Font font = new Font("arial", Font.ITALIC, 50);
             g.setFont(font);
             g.drawString("Done!", 50, 100);
-            g.drawString(sortName + " took " + changeCount + " times to sort", 50, 175);
+            g.drawString(sortName + " took " + swapCount + " swaps to sort", 50, 175);
         }
     }
 
@@ -67,9 +67,9 @@ class SortingDisplay extends JPanel {
         return (getHeight() - FLOOR_HEIGHT) - (i * HEIGHT_MARGIN) - MINIMUM_HEIGHT;
     }
 
-    public void displayFinish(String sortName, int changeCount) {
+    public void displayFinish(String sortName, int swapCount) {
         isSorted = true;
-        this.changeCount = changeCount;
+        this.swapCount = swapCount;
         this.sortName = sortName;
     }
 

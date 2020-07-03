@@ -28,8 +28,8 @@ public class Window extends JFrame {
         sortingDisplay.repaint();
     }
 
-    public void displayFinish(String sortName, int changeCount) {
-        sortingDisplay.displayFinish(sortName, changeCount);
+    public void displayFinish(String sortName, int swapCount) {
+        sortingDisplay.displayFinish(sortName, swapCount);
     }
 
 }
