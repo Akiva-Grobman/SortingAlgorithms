@@ -49,10 +49,10 @@ public class Main {
 
     // will determine what sort to use
     private static SortingAlgorithm getSortingAlgorithm(List<Integer> list) {
-        return new QuickSort(list);
+        return new SelectionSort(list);
     }
 
-    // tells the window to updat and updates list that will be on display
+    // tells the window to update and updates list that will be on display
     public static void updateDisplay(List<Integer> list) {
         window.validate();
         window.updateList(list);
