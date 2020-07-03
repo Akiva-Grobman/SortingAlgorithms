@@ -19,15 +19,18 @@ public class Window extends JFrame {
         setVisible(true);
     }
 
+    // simple setter that will call the refresh method after updating the list of elements
     public void updateList(List<Integer> list) {
         sortingDisplay.setList(list);
         refresh();
     }
 
+    // will update on screen display
     public void refresh() {
         sortingDisplay.repaint();
     }
 
+    // simple setter
     public void displayFinish(String sortName, int swapCount) {
         sortingDisplay.displayFinish(sortName, swapCount);
     }
