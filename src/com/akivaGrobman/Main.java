@@ -14,21 +14,31 @@ public class Main {
     private static Window window;
 
     public static void main(String[] args) throws InterruptedException {
-        // pretty self explanatory
         window = new Window();
         List<Integer> list = getNonOrderedList();
-        SortingAlgorithm sortingAlgorithm = getSortingAlgorithm(list);
+        runAllAlgorithms(list);
+        System.exit(0);
+    }
+
+    private static void runAllAlgorithms(List<Integer> list) throws InterruptedException {
+        // add to array every new sorting algorithm
+        SortingAlgorithm[] sortingAlgorithms = new SortingAlgorithm[]{new BubbleSort(new ArrayList<>(list)), new InsertionSort(new ArrayList<>(list)), new MergeSort(new ArrayList<>(list)), new QuickSort(new ArrayList<>(list)), new SelectionSort(new ArrayList<>(list))};
+        for (SortingAlgorithm sortingAlgorithm: sortingAlgorithms) {
+            runSingeAlgorithm(sortingAlgorithm);
+            window.resetDisplay();
+        }
+    }
+
+    private static void runSingeAlgorithm(SortingAlgorithm sortingAlgorithm) throws InterruptedException {
         sortingAlgorithm.sort();
         window.displayFinish(sortingAlgorithm.getClass().getSimpleName(), sortingAlgorithm.getSwapCount());
-        sleep(3000);
-        System.exit(0);
-
+        sleep(2500);
     }
 
     // will return an array to sort
     private static List<Integer> getNonOrderedList() {
         List<Integer> list = new ArrayList<>();
-        final int listSize = 150;
+        final int listSize = 50;
         // this represents the numbers already used
         boolean[] usedNumbers = new boolean[listSize];
         Random randomNumberGenerator = new Random();
@@ -45,11 +55,6 @@ public class Main {
             usedNumbers[randomNumber] = true;
         }
         return list;
-    }
-
-    // will determine what sort to use
-    private static SortingAlgorithm getSortingAlgorithm(List<Integer> list) {
-        return new SelectionSort(list);
     }
 
     // tells the window to update and updates list that will be on display

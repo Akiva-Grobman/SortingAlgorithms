@@ -86,4 +86,7 @@ class SortingDisplay extends JPanel {
         this.sortName = sortName;
     }
 
+    public void resetDisplay() {
+        isSorted = false;
+    }
 }

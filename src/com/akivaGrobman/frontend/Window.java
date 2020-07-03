@@ -35,4 +35,7 @@ public class Window extends JFrame {
         sortingDisplay.displayFinish(sortName, swapCount);
     }
 
+    public void resetDisplay() {
+        sortingDisplay.resetDisplay();
+    }
 }
