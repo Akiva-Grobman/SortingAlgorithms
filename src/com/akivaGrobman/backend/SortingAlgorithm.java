@@ -23,7 +23,7 @@ public abstract class SortingAlgorithm {
         int temp = list.get(i);
         list.set(i, list.get(j));
         list.set(j, temp);
-        swapCount++;
+        updateSwapCount();
     }
 
     // this method should always be call right after the swap method is called
@@ -34,6 +34,10 @@ public abstract class SortingAlgorithm {
             //adds a small delay to rendering so the human eye can appreciate it
             Thread.sleep(SPEED);
         } catch (InterruptedException ignored) {}
+    }
+
+    protected void updateSwapCount() {
+        swapCount++;
     }
 
     // simple getter

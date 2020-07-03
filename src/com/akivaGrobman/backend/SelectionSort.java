@@ -17,7 +17,6 @@ public class SelectionSort extends SortingAlgorithm {
                     jMin = j;
                 }
             }
-            System.out.println(i);
             if(jMin != i) {
                 swap(i, jMin);
                 updateDisplay();
