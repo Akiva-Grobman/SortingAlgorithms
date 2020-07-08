@@ -9,14 +9,29 @@ public class Window extends JFrame {
     public static final Color blue = new Color(11, 93, 137);
     public static final Color green = new Color(3, 43, 23);
     private final SortingDisplay sortingDisplay;
+    private final WelcomeDisplay welcomeDisplay;
+    private static JPanel panelCont;
+    private static CardLayout cardLayout;
 
     public Window() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setTitle("Sorting visualizer - By Akiva Grobman");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //allow to switch between panels
+        panelCont = new JPanel();
+        cardLayout = new CardLayout();
+        panelCont.setLayout(cardLayout);
+
         sortingDisplay = new SortingDisplay();
-        add(sortingDisplay);
+        welcomeDisplay = new WelcomeDisplay();
+        panelCont.add(welcomeDisplay,"welcomeDisplay");
+        panelCont.add(sortingDisplay,"second");
+
+        add(panelCont);
         setVisible(true);
+
+
     }
 
     // simple setter that will call the refresh method after updating the list of elements
@@ -48,4 +63,8 @@ public class Window extends JFrame {
         sortingDisplay.resetDisplay();
     }
 
+    public static void replacePanels(){
+        System.out.println("in replacePanels");
+        cardLayout.show(panelCont,"second");
+    }
 }

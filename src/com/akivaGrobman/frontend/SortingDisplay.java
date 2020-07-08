@@ -92,6 +92,7 @@ class SortingDisplay extends JPanel {
             g.drawString("Done!", 50, 100);
             g.drawString(sortName + " took " + swapCount + " swaps to sort", 50, 175);
         }
+            repaint();
     }
 
     private int getY(int i) {
