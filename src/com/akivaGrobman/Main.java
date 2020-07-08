@@ -16,7 +16,8 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         window = new Window();
         List<Integer> list = getNonOrderedList();
-        runAllAlgorithms(list);
+//        runAllAlgorithms(list);
+        runSingeAlgorithm(new MergeSort(list));
         System.exit(0);
     }
 
@@ -32,6 +33,7 @@ public class Main {
     private static void runSingeAlgorithm(SortingAlgorithm sortingAlgorithm) throws InterruptedException {
         sortingAlgorithm.sort();
         window.displayFinish(sortingAlgorithm.getClass().getSimpleName(), sortingAlgorithm.getSwapCount());
+        window.refresh();
         sleep(2500);
     }
 
@@ -57,10 +59,13 @@ public class Main {
         return list;
     }
 
-    // tells the window to update and updates list that will be on display
-    public static void updateDisplay(List<Integer> list) {
+    // tells the window to update and updates the list and bar being moved position
+    public static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions) {
         window.validate();
+        window.updateBarBeingMoved(barBeingMovedPosition);
+        window.updateBarBeingEvaluated(evaluatedBarPositions);
         window.updateList(list);
+        window.refresh();
     }
 
 }

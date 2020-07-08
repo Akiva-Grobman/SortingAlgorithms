@@ -22,7 +22,16 @@ public class Window extends JFrame {
     // simple setter that will call the refresh method after updating the list of elements
     public void updateList(List<Integer> list) {
         sortingDisplay.setList(list);
-        refresh();
+    }
+
+    // will update the bar being moved (so it can be displayed differently)
+    public void updateBarBeingMoved(int position) {
+        sortingDisplay.setBarBeingMovedPosition(position);
+    }
+
+    // will update the bar being compared to the one being moved (so it can be displayed differently)
+    public void updateBarBeingEvaluated(List<Integer> evaluatedBarPositions) {
+        sortingDisplay.setEvaluatedBarPositions(evaluatedBarPositions);
     }
 
     // will update on screen display
@@ -38,4 +47,5 @@ public class Window extends JFrame {
     public void resetDisplay() {
         sortingDisplay.resetDisplay();
     }
+
 }
