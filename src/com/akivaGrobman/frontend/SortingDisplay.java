@@ -48,7 +48,7 @@ class SortingDisplay extends JPanel {
             minY = Integer.min(minY, getY(i));
         }
         // this will make sure we don't go off screen
-        // going off screen can happen if the number of elements is to large if this does happen we divided all high by our resize var which will grow relatively to the some of elements
+        // going off screen can happen if the number of elements is to large if this does happen we divided all y's by our resize var which will grow relatively to the sum of elements
         while (minY < 20) {
             yResize++;
             minY = getY(minY) / yResize;
