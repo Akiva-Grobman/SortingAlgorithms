@@ -28,14 +28,14 @@ public class QuickSort extends SortingAlgorithm {
             if(list.get(j) < pivot) {
                 swap(i, j);
                 setSortedElementPosition(j);
-                setEvaluatedElementPosition(pivot);
+                addToEvaluatedElements(pivot);
                 updateDisplay();
                 i++;
             }
         }
         swap(i, high);
         setSortedElementPosition(high);
-        setEvaluatedElementPosition(i);
+        addToEvaluatedElements(i);
         updateDisplay();
         return i;
     }

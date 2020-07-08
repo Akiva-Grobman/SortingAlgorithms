@@ -30,8 +30,8 @@ public class Window extends JFrame {
     }
 
     // will update the bar being compared to the one being moved (so it can be displayed differently)
-    public void updateBarBeingEvaluated(int position) {
-        sortingDisplay.setBarBeingEvaluatedPosition(position);
+    public void updateBarBeingEvaluated(List<Integer> evaluatedBarPositions) {
+        sortingDisplay.setEvaluatedBarPositions(evaluatedBarPositions);
     }
 
     // will update on screen display

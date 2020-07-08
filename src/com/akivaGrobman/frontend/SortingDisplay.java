@@ -1,7 +1,5 @@
 package com.akivaGrobman.frontend;
 
-import com.akivaGrobman.backend.MergeSort;
-
 import static com.akivaGrobman.frontend.Window.*;
 
 import javax.swing.*;
@@ -15,7 +13,7 @@ class SortingDisplay extends JPanel {
     private final int HEIGHT_MARGIN = 10;
     private List<Integer> list;
     private int barBeingMovedPosition;
-    private int barBeingEvaluatedPosition;
+    private List<Integer> evaluatedBarPositions;
     private boolean isSorted;
     private int swapCount;
     private String sortName;
@@ -34,8 +32,8 @@ class SortingDisplay extends JPanel {
         barBeingMovedPosition = position;
     }
 
-    void setBarBeingEvaluatedPosition(int position) {
-        barBeingEvaluatedPosition = position;
+    void setEvaluatedBarPositions(List<Integer> position) {
+        evaluatedBarPositions = position;
     }
 
     @Override
@@ -71,13 +69,13 @@ class SortingDisplay extends JPanel {
             // if this is the bar being moved(aka being sorted) we change the color
             if(i == barBeingMovedPosition) {
                 g.setColor(new Color(187, 17, 45));
-            } else if(i == barBeingEvaluatedPosition) {
+            } else if(evaluatedBarPositions.contains(i)) {
                 g.setColor(new Color(23, 255, 35));
             }
             // drawing a rectangle relative to the element size
             g.fillRect(x, y, (int) WIDTH_MARGIN, (element * HEIGHT_MARGIN + MINIMUM_HEIGHT) / yResize);
             // if we changed the bar color we reset it
-            if(i == barBeingMovedPosition || i == barBeingEvaluatedPosition) {
+            if(i == barBeingMovedPosition || evaluatedBarPositions.contains(i)) {
                 g.setColor(blue);
             }
             // if there's room on screen will draw the element value above the rectangle

@@ -15,7 +15,7 @@ public class InsertionSort extends SortingAlgorithm{
             while (j > 0 && list.get(j - 1) > list.get(j)) {
                 swap(j, j - 1);
                 setSortedElementPosition(j - 1);
-                setEvaluatedElementPosition(j);
+                addToEvaluatedElements(j);
                 updateDisplay();
                 j--;
             }

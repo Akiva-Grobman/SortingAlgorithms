@@ -2,18 +2,20 @@ package com.akivaGrobman.backend;
 
 import com.akivaGrobman.Main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SortingAlgorithm {
 
     private static final int SORTING_SPEED = 500;
     private int elementBeingSortedPosition;
-    private int evaluatedElementPosition;
+    private List<Integer> evaluatedElementsPosition;
     private int swapCount;
     protected List<Integer> list;
 
     public SortingAlgorithm(List<Integer> list) {
         this.list = list;
+        evaluatedElementsPosition = new ArrayList<>();
         swapCount = 0;
     }
 
@@ -32,14 +34,15 @@ public abstract class SortingAlgorithm {
         elementBeingSortedPosition = position;
     }
 
-    protected void setEvaluatedElementPosition(int position) {
-        evaluatedElementPosition = position;
+    protected void addToEvaluatedElements(int position) {
+        evaluatedElementsPosition.add(position);
     }
 
     // this method should always be call right after the swap method is called
     protected void updateDisplay() {
         // calls the main update method that will update the onscreen display
-        Main.updateDisplay(list, elementBeingSortedPosition, evaluatedElementPosition);
+        Main.updateDisplay(list, elementBeingSortedPosition, evaluatedElementsPosition);
+        evaluatedElementsPosition = new ArrayList<>();
         try {
             //adds a small delay to rendering so the human eye can appreciate it
             Thread.sleep(SORTING_SPEED);

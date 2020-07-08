@@ -17,7 +17,7 @@ public class Main {
         window = new Window();
         List<Integer> list = getNonOrderedList();
 //        runAllAlgorithms(list);
-        runSingeAlgorithm(new QuickSort(list));
+        runSingeAlgorithm(new SelectionSort(list));
         System.exit(0);
     }
 
@@ -60,10 +60,10 @@ public class Main {
     }
 
     // tells the window to update and updates the list and bar being moved position
-    public static void updateDisplay(List<Integer> list, int barBeingMovedPosition, int barBeingEvaluatedPosition) {
+    public static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions) {
         window.validate();
         window.updateBarBeingMoved(barBeingMovedPosition);
-        window.updateBarBeingEvaluated(barBeingEvaluatedPosition);
+        window.updateBarBeingEvaluated(evaluatedBarPositions);
         window.updateList(list);
         window.refresh();
     }
