@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class SortingAlgorithm {
 
-    private static final int SORTING_SPEED = 50;
+    private static final int SORTING_SPEED = 500;
     private int elementBeingSortedPosition;
     private int evaluatedElementPosition;
     private int swapCount;

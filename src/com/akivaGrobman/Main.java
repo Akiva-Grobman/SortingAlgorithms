@@ -17,7 +17,7 @@ public class Main {
         window = new Window();
         List<Integer> list = getNonOrderedList();
 //        runAllAlgorithms(list);
-        runSingeAlgorithm(new InsertionSort(list));
+        runSingeAlgorithm(new BubbleSort(list));
         System.exit(0);
     }
 
@@ -33,6 +33,7 @@ public class Main {
     private static void runSingeAlgorithm(SortingAlgorithm sortingAlgorithm) throws InterruptedException {
         sortingAlgorithm.sort();
         window.displayFinish(sortingAlgorithm.getClass().getSimpleName(), sortingAlgorithm.getSwapCount());
+        window.refresh();
         sleep(2500);
     }
 
