@@ -8,8 +8,8 @@ public class Window extends JFrame {
 
     public static final Color blue = new Color(11, 93, 137);
     public static final Color green = new Color(3, 43, 23);
+    private static final String sortingDisplayKey = SortingDisplay.class.getSimpleName();
     private final SortingDisplay sortingDisplay;
-    private final WelcomeDisplay welcomeDisplay;
     private static JPanel panelCont;
     private static CardLayout cardLayout;
 
@@ -17,21 +17,16 @@ public class Window extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setTitle("Sorting visualizer - By Akiva Grobman");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //allow to switch between panels
         panelCont = new JPanel();
+        // we use the card layout so we can switch the panel on display
         cardLayout = new CardLayout();
         panelCont.setLayout(cardLayout);
-
         sortingDisplay = new SortingDisplay();
-        welcomeDisplay = new WelcomeDisplay();
-        panelCont.add(welcomeDisplay,"welcomeDisplay");
-        panelCont.add(sortingDisplay,"second");
-
+        WelcomeDisplay welcomeDisplay = new WelcomeDisplay();
+        panelCont.add(welcomeDisplay, welcomeDisplay.getClass().getSimpleName());
+        panelCont.add(sortingDisplay, sortingDisplayKey);
         add(panelCont);
         setVisible(true);
-
-
     }
 
     // simple setter that will call the refresh method after updating the list of elements
@@ -63,8 +58,9 @@ public class Window extends JFrame {
         sortingDisplay.resetDisplay();
     }
 
+    // will make the sorting display panel the one being seen
     public static void replacePanels(){
-        System.out.println("in replacePanels");
-        cardLayout.show(panelCont,"second");
+        cardLayout.show(panelCont, sortingDisplayKey);
     }
+
 }
