@@ -25,6 +25,9 @@ public class QuickSort extends SortingAlgorithm {
         int pivot = list.get(high);
         int i = low;
         for (int j = low; j < high; j++) {
+            addToEvaluatedElements(j);
+            addToEvaluatedElements(pivot);
+            updateDisplay();
             if(list.get(j) < pivot) {
                 swap(i, j);
                 setSortedElementPosition(j);
