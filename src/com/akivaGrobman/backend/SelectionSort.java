@@ -19,6 +19,7 @@ public class SelectionSort extends SortingAlgorithm {
             }
             if(jMin != i) {
                 swap(i, jMin);
+                // bar being moved is j
                 updateDisplay();
             }
         }

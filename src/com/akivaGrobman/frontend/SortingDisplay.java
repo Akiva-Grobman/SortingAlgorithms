@@ -14,6 +14,8 @@ class SortingDisplay extends JPanel {
     private final int MINIMUM_HEIGHT = 10;
     private final int HEIGHT_MARGIN = 10;
     private List<Integer> list;
+    private int barBeingMovedPosition;
+    private int barBeingEvaluatedPosition;
     private boolean isSorted;
     private int swapCount;
     private String sortName;
@@ -26,6 +28,14 @@ class SortingDisplay extends JPanel {
     // simple setter
     void setList(List<Integer> list) {
         this.list = list;
+    }
+
+    void setBarBeingMovedPosition(int position) {
+        barBeingMovedPosition = position;
+    }
+
+    void setBarBeingEvaluatedPosition(int position) {
+        barBeingEvaluatedPosition = position;
     }
 
     @Override
@@ -50,18 +60,29 @@ class SortingDisplay extends JPanel {
         g.fillRect(0, getHeight() - FLOOR_HEIGHT, getWidth(), FLOOR_HEIGHT);
         // drawing the elements
         g.setColor(blue);
-        for (Integer integer : list) {
+        for (int i = 0; i < list.size(); i++) {
+            int element = list.get(i);
             // setting the starter y for each element
-            y = getY(integer);
+            y = getY(element);
             // resize if necessary(see longer explanation above
             if(yResize != 1) {
-                y += (integer * HEIGHT_MARGIN + MINIMUM_HEIGHT) / yResize;
+                y += (element * HEIGHT_MARGIN + MINIMUM_HEIGHT) / yResize;
+            }
+            // if this is the bar being moved(aka being sorted) we change the color
+            if(i == barBeingMovedPosition) {
+                g.setColor(new Color(187, 17, 45));
+            } else if(i == barBeingEvaluatedPosition) {
+                g.setColor(new Color(23, 255, 35));
             }
             // drawing a rectangle relative to the element size
-            g.fillRect(x, y, (int)WIDTH_MARGIN, (integer * HEIGHT_MARGIN + MINIMUM_HEIGHT) / yResize);
+            g.fillRect(x, y, (int) WIDTH_MARGIN, (element * HEIGHT_MARGIN + MINIMUM_HEIGHT) / yResize);
+            // if we changed the bar color we reset it
+            if(i == barBeingMovedPosition || i == barBeingEvaluatedPosition) {
+                g.setColor(blue);
+            }
             // if there's room on screen will draw the element value above the rectangle
             if(list.size() < 100) {
-                g.drawString(String.valueOf(integer), x, y - 20);
+                g.drawString(String.valueOf(element), x, y - 20);
             }
             // moving next x by the size of the rectangle X 2, one for the actual rectangle and one for the space between the rectangles
             x += (2 * WIDTH_MARGIN);
@@ -81,13 +102,14 @@ class SortingDisplay extends JPanel {
     }
 
     // simple setter
-    public void displayFinish(String sortName, int swapCount) {
+    void displayFinish(String sortName, int swapCount) {
         isSorted = true;
         this.swapCount = swapCount;
         this.sortName = sortName;
     }
 
-    public void resetDisplay() {
+    void resetDisplay() {
         isSorted = false;
     }
+
 }

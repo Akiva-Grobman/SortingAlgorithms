@@ -14,6 +14,7 @@ public class BubbleSort extends SortingAlgorithm{
             for (int j = 0; j < list.size() - i - 1; j++) {
                 if (list.get(j) > list.get(j + 1)) {
                     swap(j, j + 1);
+                    // bar being moved is j
                     updateDisplay();
                 }
             }

@@ -52,12 +52,14 @@ public class MergeSort extends SortingAlgorithm {
                 j++;
             }
             updateSwapCount();
+            // bar being moved is k (i think)
             updateDisplay();
             k++;
         }
         while (i < newLeftMiddle) {
             list.set(k, leftArray[i]);
             updateSwapCount();
+            // bar being moved is k (i think)
             updateDisplay();
             i++;
             k++;
@@ -65,6 +67,7 @@ public class MergeSort extends SortingAlgorithm {
         while (j < newRightMiddle) {
             list.set(k, rightArray[j]);
             updateSwapCount();
+            // bar being moved is k (i think)
             updateDisplay();
             j++;
             k++;

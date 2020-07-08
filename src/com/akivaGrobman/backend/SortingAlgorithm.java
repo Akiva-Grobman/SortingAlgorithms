@@ -6,9 +6,11 @@ import java.util.List;
 
 public abstract class SortingAlgorithm {
 
-    private static final int SPEED = 5;
-    protected List<Integer> list;
+    private static final int SORTING_SPEED = 50;
+    private int elementBeingSortedPosition;
+    private int evaluatedElementPosition;
     private int swapCount;
+    protected List<Integer> list;
 
     public SortingAlgorithm(List<Integer> list) {
         this.list = list;
@@ -26,16 +28,25 @@ public abstract class SortingAlgorithm {
         updateSwapCount();
     }
 
+    protected void setSortedElementPosition(int position) {
+        elementBeingSortedPosition = position;
+    }
+
+    protected void setEvaluatedElementPosition(int position) {
+        evaluatedElementPosition = position;
+    }
+
     // this method should always be call right after the swap method is called
     protected void updateDisplay() {
         // calls the main update method that will update the onscreen display
-        Main.updateDisplay(list);
+        Main.updateDisplay(list, elementBeingSortedPosition, evaluatedElementPosition);
         try {
             //adds a small delay to rendering so the human eye can appreciate it
-            Thread.sleep(SPEED);
+            Thread.sleep(SORTING_SPEED);
         } catch (InterruptedException ignored) {}
     }
 
+    // will add one to the swap count
     protected void updateSwapCount() {
         swapCount++;
     }
