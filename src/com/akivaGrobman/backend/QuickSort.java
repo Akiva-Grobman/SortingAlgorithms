@@ -27,12 +27,15 @@ public class QuickSort extends SortingAlgorithm {
         for (int j = low; j < high; j++) {
             if(list.get(j) < pivot) {
                 swap(i, j);
-                // bar being moved is i (i think)
+                setSortedElementPosition(j);
+                setEvaluatedElementPosition(pivot);
                 updateDisplay();
                 i++;
             }
         }
         swap(i, high);
+        setSortedElementPosition(high);
+        setEvaluatedElementPosition(i);
         updateDisplay();
         return i;
     }
