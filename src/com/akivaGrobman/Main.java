@@ -12,13 +12,14 @@ import static java.lang.Thread.sleep;
 public class Main {
 
     private static Window window;
+    private static int listSize;
 
     public static void main(String[] args) throws InterruptedException {
         window = new Window();
-        List<Integer> list = getNonOrderedList();
+//        List<Integer> list = getNonOrderedList();
 //        runAllAlgorithms(list);
-        runSingeAlgorithm(new MergeSort(list));
-        System.exit(0);
+//        runSingeAlgorithm(new MergeSort(list));
+//        System.exit(0);
     }
 
     private static void runAllAlgorithms(List<Integer> list) throws InterruptedException {
@@ -27,6 +28,7 @@ public class Main {
         for (SortingAlgorithm sortingAlgorithm: sortingAlgorithms) {
             runSingeAlgorithm(sortingAlgorithm);
             window.resetDisplay();
+
         }
     }
 
@@ -40,7 +42,6 @@ public class Main {
     // will return an array to sort
     private static List<Integer> getNonOrderedList() {
         List<Integer> list = new ArrayList<>();
-        final int listSize = 50;
         // this represents the numbers already used
         boolean[] usedNumbers = new boolean[listSize];
         Random randomNumberGenerator = new Random();
@@ -66,6 +67,33 @@ public class Main {
         window.updateBarBeingEvaluated(evaluatedBarPositions);
         window.updateList(list);
         window.refresh();
+    }
+
+    public static void startSorting(int listS) throws InterruptedException {
+        listSize=listS;
+        System.out.println("should work");
+        Thread thread1 = new Thread(){
+            public void run(){
+
+        List<Integer> list = getNonOrderedList();
+                try {
+                    runSingeAlgorithm(new MergeSort(list));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.exit(0);
+
+            }
+        };
+
+        thread1.start();
+        Thread thread = new Thread(){
+            public void run(){
+                window.replacePanels();
+            }
+        };
+
+        thread.start();
     }
 
 }
