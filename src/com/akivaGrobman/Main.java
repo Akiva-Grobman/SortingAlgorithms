@@ -17,7 +17,7 @@ public class Main {
         window = new Window();
         List<Integer> list = getNonOrderedList();
 //        runAllAlgorithms(list);
-        runSingeAlgorithm(new QuickSort(list));
+        runSingeAlgorithm(new MergeSort(list));
         System.exit(0);
     }
 

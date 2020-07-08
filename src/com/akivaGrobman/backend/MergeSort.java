@@ -39,35 +39,33 @@ public class MergeSort extends SortingAlgorithm {
         int i = 0, j = 0;
         int k = left;
         while (i < newLeftMiddle && j < newRightMiddle) {
+            addToEvaluatedElements(list.indexOf(leftArray[i]));
+            addToEvaluatedElements(list.indexOf(rightArray[j]));
             if (leftArray[i] <= rightArray[j]) {
                 list.set(k, leftArray[i]);
-                updateSwapCount();
-                updateDisplay();
                 i++;
             }
             else {
                 list.set(k, rightArray[j]);
-                updateSwapCount();
-                updateDisplay();
                 j++;
             }
+            setSortedElementPosition(k);
             updateSwapCount();
-            // bar being moved is k (i think)
             updateDisplay();
             k++;
         }
         while (i < newLeftMiddle) {
             list.set(k, leftArray[i]);
+            setSortedElementPosition(k);
             updateSwapCount();
-            // bar being moved is k (i think)
             updateDisplay();
             i++;
             k++;
         }
         while (j < newRightMiddle) {
             list.set(k, rightArray[j]);
+            setSortedElementPosition(k);
             updateSwapCount();
-            // bar being moved is k (i think)
             updateDisplay();
             j++;
             k++;
