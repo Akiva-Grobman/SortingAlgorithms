@@ -1,7 +1,6 @@
 package com.akivaGrobman.frontend;
 
 import static com.akivaGrobman.frontend.Window.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;

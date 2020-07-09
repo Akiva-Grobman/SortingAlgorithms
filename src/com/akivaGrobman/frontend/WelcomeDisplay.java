@@ -2,6 +2,7 @@ package com.akivaGrobman.frontend;
 
 import com.akivaGrobman.Main;
 
+import static com.akivaGrobman.frontend.Window.*;
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,10 +10,9 @@ class WelcomeDisplay extends JPanel {
 
     private final JButton startButton;
     private final JSlider slider;
-    Color blue =new Color(11, 93, 137);
 
     WelcomeDisplay(){
-        setBackground(new Color(3, 43, 23));
+        setBackground(green);
 
         //set as absolute layout
         setLayout(null);
@@ -26,7 +26,7 @@ class WelcomeDisplay extends JPanel {
         slider.setPaintLabels(true);
         slider.setPaintTicks(true);
         slider.setValue(60);
-        slider.setBackground(new Color(3, 43, 23));
+        slider.setBackground(green);
         slider.setForeground(blue);
 
         add(slider);
