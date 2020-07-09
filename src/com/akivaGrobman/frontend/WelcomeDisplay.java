@@ -9,8 +9,11 @@ class WelcomeDisplay extends JPanel {
 
     private final JButton startButton;
     private final JSlider slider;
+    Color blue =new Color(11, 93, 137);
 
     WelcomeDisplay(){
+        setBackground(new Color(3, 43, 23));
+
         //set as absolute layout
         setLayout(null);
         //set the slider
@@ -23,11 +26,15 @@ class WelcomeDisplay extends JPanel {
         slider.setPaintLabels(true);
         slider.setPaintTicks(true);
         slider.setValue(60);
+        slider.setBackground(new Color(3, 43, 23));
+        slider.setForeground(blue);
+
         add(slider);
         //set the start button
         startButton = new JButton("Start the simulation");
         startButton.setFont(new Font("arial", Font.ITALIC, 35));
         startButton.setSize(350,100);
+        startButton.setForeground(blue);
         startButton.addActionListener(e -> {
             try {
                 Main.startSorting(slider.getValue());
@@ -43,8 +50,9 @@ class WelcomeDisplay extends JPanel {
         super.paintComponent(g);
         Font font = new Font("arial", Font.ITALIC, 50);
         g.setFont(font);
+        g.setColor(blue);
         String welcomeString = "Welcome to the sorting simulator";
-        String instructionsString = "Please select how much numbers you want to sort";
+        String instructionsString = "Please select how many numbers you want to sort";
         int textWidth = g.getFontMetrics().stringWidth(welcomeString);
         int width = (getWidth()-textWidth) / 2;
         int number_of_rows = 6;

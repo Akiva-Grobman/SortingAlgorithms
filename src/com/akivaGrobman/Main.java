@@ -16,10 +16,6 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         window = new Window();
-//        List<Integer> list = getNonOrderedList();
-//        runAllAlgorithms(list);
-//        runSingeAlgorithm(new MergeSort(list));
-//        System.exit(0);
     }
 
     private static void runAllAlgorithms(List<Integer> list) throws InterruptedException {
@@ -71,13 +67,12 @@ public class Main {
 
     public static void startSorting(int listS) throws InterruptedException {
         listSize=listS;
-        System.out.println("should work");
-        Thread thread1 = new Thread(){
+        Thread thread = new Thread(){
             public void run(){
 
         List<Integer> list = getNonOrderedList();
                 try {
-                    runSingeAlgorithm(new MergeSort(list));
+                    runAllAlgorithms(list);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -86,14 +81,10 @@ public class Main {
             }
         };
 
-        thread1.start();
-        Thread thread = new Thread(){
-            public void run(){
-                window.replacePanels();
-            }
-        };
-
         thread.start();
+
+        window.replacePanels();
+
     }
 
 }
