@@ -3,13 +3,14 @@ package com.akivaGrobman.frontend;
 import static com.akivaGrobman.frontend.Window.*;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 class SortingDisplay extends JPanel {
 
-    private final int FLOOR_HEIGHT = 40;
     private final int MINIMUM_HEIGHT = 10;
-    private final int HEIGHT_MARGIN = 10;
+    private double HEIGHT_MARGIN;
+    private int FLOOR_HEIGHT;
     private List<Integer> list;
     private int barBeingMovedPosition;
     private List<Integer> evaluatedBarPositions;
@@ -19,6 +20,7 @@ class SortingDisplay extends JPanel {
 
     SortingDisplay() {
         isSorted = false;
+        list = new ArrayList<>();
         setBackground(green);
     }
 
@@ -38,7 +40,9 @@ class SortingDisplay extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        final double WIDTH_MARGIN = (getWidth() / 2.0) / (double) list.size();
+        final double WIDTH_MARGIN = (getWidth() / 2d) / (double) list.size();
+        FLOOR_HEIGHT = getHeight() / 20;
+        HEIGHT_MARGIN = (getHeight() - (getHeight() / (double)list.size())) / (double)list.size();
         int x = (int) WIDTH_MARGIN;
         int y;
         int yResize = 1;
@@ -72,7 +76,7 @@ class SortingDisplay extends JPanel {
                 g.setColor(new Color(23, 255, 35));
             }
             // drawing a rectangle relative to the element size
-            g.fillRect(x, y, (int) WIDTH_MARGIN, (element * HEIGHT_MARGIN + MINIMUM_HEIGHT) / yResize);
+            g.fillRect(x, y, (int) WIDTH_MARGIN, (int) ((element * HEIGHT_MARGIN + MINIMUM_HEIGHT) / yResize));
             // if we changed the bar color we reset it
             if(i == barBeingMovedPosition || evaluatedBarPositions.contains(i)) {
                 g.setColor(blue);
@@ -91,12 +95,11 @@ class SortingDisplay extends JPanel {
             g.drawString("Done!", 50, 100);
             g.drawString(sortName + " took " + swapCount + " swaps to sort", 50, 175);
         }
-            repaint();
     }
 
     private int getY(int i) {
         // setting y relative to the "floor", element height, and minimum height(in case the elements value is 0 it will still get represented
-        return (getHeight() - FLOOR_HEIGHT) - (i * HEIGHT_MARGIN) - MINIMUM_HEIGHT;
+        return (int) ((getHeight() - FLOOR_HEIGHT) - (i * HEIGHT_MARGIN) - MINIMUM_HEIGHT);
     }
 
     // simple setter

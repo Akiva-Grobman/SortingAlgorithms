@@ -35,13 +35,7 @@ class WelcomeDisplay extends JPanel {
         startButton.setFont(new Font("arial", Font.ITALIC, 35));
         startButton.setSize(350,100);
         startButton.setForeground(blue);
-        startButton.addActionListener(e -> {
-            try {
-                Main.startSorting(slider.getValue());
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
-            }
-        });
+        startButton.addActionListener(e -> Main.startSorting(slider.getValue()));
         add(startButton);
     }
 

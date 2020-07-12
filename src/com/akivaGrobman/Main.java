@@ -14,8 +14,34 @@ public class Main {
     private static Window window;
     private static int listSize;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         window = new Window();
+    }
+
+    // tells the window to update and updates the list and bar being moved position
+    public static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions) {
+        window.validate();
+        window.updateBarBeingMoved(barBeingMovedPosition);
+        window.updateBarBeingEvaluated(evaluatedBarPositions);
+        window.updateList(list);
+        window.refresh();
+    }
+
+    public static void startSorting(int listS) {
+        listSize=listS;
+        Thread thread = new Thread(() -> {
+            try {
+                startSorting();
+            } catch (InterruptedException ignored) {}
+        });
+        thread.start();
+        Window.replacePanels();
+    }
+
+    private static void startSorting() throws InterruptedException {
+        List<Integer> list = getNonOrderedList();
+        runSingeAlgorithm(new QuickSort(list));
+//        System.exit(0);
     }
 
     private static void runAllAlgorithms(List<Integer> list) throws InterruptedException {
@@ -54,37 +80,6 @@ public class Main {
             usedNumbers[randomNumber] = true;
         }
         return list;
-    }
-
-    // tells the window to update and updates the list and bar being moved position
-    public static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions) {
-        window.validate();
-        window.updateBarBeingMoved(barBeingMovedPosition);
-        window.updateBarBeingEvaluated(evaluatedBarPositions);
-        window.updateList(list);
-        window.refresh();
-    }
-
-    public static void startSorting(int listS) throws InterruptedException {
-        listSize=listS;
-        Thread thread = new Thread(){
-            public void run(){
-
-        List<Integer> list = getNonOrderedList();
-                try {
-                    runAllAlgorithms(list);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.exit(0);
-
-            }
-        };
-
-        thread.start();
-
-        window.replacePanels();
-
     }
 
 }
