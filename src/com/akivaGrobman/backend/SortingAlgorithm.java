@@ -41,7 +41,7 @@ public abstract class SortingAlgorithm {
     // this method should always be call right after the swap method is called
     protected void updateDisplay() {
         // calls the main update method that will update the onscreen display
-        Main.updateDisplay(list, elementBeingSortedPosition, evaluatedElementsPosition);
+        Main.updateDisplay(list, elementBeingSortedPosition, evaluatedElementsPosition, this.getClass().getSimpleName());
         evaluatedElementsPosition = new ArrayList<>();
         try {
             //adds a small delay to rendering so the human eye can appreciate it

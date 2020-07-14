@@ -29,37 +29,51 @@ class SortingDisplay extends JPanel {
         this.list = list;
     }
 
+    // simple setter
     void setBarBeingMovedPosition(int position) {
         barBeingMovedPosition = position;
     }
 
+    // simple setter
     void setEvaluatedBarPositions(List<Integer> position) {
         evaluatedBarPositions = position;
+    }
+
+    // will reset the display
+    void resetDisplay() {
+        isSorted = false;
+    }
+
+    // simple setter
+    void displayFinish(String sortName, int swapCount) {
+        isSorted = true;
+        this.swapCount = swapCount;
+        this.sortName = sortName;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        final double WIDTH_MARGIN = (getWidth() / 2d) / (double) list.size();
         FLOOR_HEIGHT = getHeight() / 20;
         HEIGHT_MARGIN = (getHeight() - (getHeight() / (double)list.size())) / (double)list.size();
-        int x = (int) WIDTH_MARGIN;
-        int y;
         int yResize = 1;
-        int minY = Integer.MAX_VALUE;
-        for (Integer i: list) {
-            minY = Integer.min(minY, getY(i));
-        }
         // this will make sure we don't go off screen
-        // going off screen can happen if the number of elements is to large if this does happen we divided all y's by our resize var which will grow relatively to the sum of elements
-        while (minY < 20) {
-            yResize++;
-            minY = getY(minY) / yResize;
-        }
+        yResize = getYResize(yResize);
         // drawing the black "floor"
         g.setColor(Color.black);
         g.fillRect(0, getHeight() - FLOOR_HEIGHT, getWidth(), FLOOR_HEIGHT);
-        // drawing the elements
+        // draw elements
+        drawElements(g, yResize);
+        if(isSorted) {
+            drawEndingDisplay(g);
+        }
+    }
+
+    // draws the elements
+    private void drawElements(Graphics g, int yResize) {
+        final double WIDTH_MARGIN = (getWidth() / 2d) / (double) list.size();
+        int x = (int) WIDTH_MARGIN;
+        int y;
         g.setColor(blue);
         for (int i = 0; i < list.size(); i++) {
             int element = list.get(i);
@@ -77,10 +91,7 @@ class SortingDisplay extends JPanel {
             }
             // drawing a rectangle relative to the element size
             g.fillRect(x, y, (int) WIDTH_MARGIN, (int) ((element * HEIGHT_MARGIN + MINIMUM_HEIGHT) / yResize));
-            // if we changed the bar color we reset it
-            if(i == barBeingMovedPosition || evaluatedBarPositions.contains(i)) {
-                g.setColor(blue);
-            }
+            g.setColor(blue);
             // if there's room on screen will draw the element value above the rectangle
             if(list.size() < 100) {
                 g.drawString(String.valueOf(element), x, y - 20);
@@ -88,29 +99,35 @@ class SortingDisplay extends JPanel {
             // moving next x by the size of the rectangle X 2, one for the actual rectangle and one for the space between the rectangles
             x += (2 * WIDTH_MARGIN);
         }
-        // ending display
-        if(isSorted) {
-            Font font = new Font("arial", Font.ITALIC, 50);
-            g.setFont(font);
-            g.drawString("Done!", 50, 100);
-            g.drawString(sortName + " took " + swapCount + " swaps to sort", 50, 175);
-        }
     }
 
+    // will get the resize factor (this will change with the screen size and sum of elements)
+    private int getYResize(int yResize) {
+        // going off screen can happen if the number of elements is to large if this does happen we divided all y's by our resize var which will grow relatively to the sum of elements
+        int minY = Integer.MAX_VALUE;
+        // find the tallest element in the array
+        for (Integer i: list) {
+            minY = Integer.min(minY, getY(i));
+        }
+        while (minY < 20) {
+            yResize++;
+            minY = getY(minY) / yResize;
+        }
+        return yResize;
+    }
+
+    // will calculate the y for each element
     private int getY(int i) {
         // setting y relative to the "floor", element height, and minimum height(in case the elements value is 0 it will still get represented
         return (int) ((getHeight() - FLOOR_HEIGHT) - (i * HEIGHT_MARGIN) - MINIMUM_HEIGHT);
     }
 
-    // simple setter
-    void displayFinish(String sortName, int swapCount) {
-        isSorted = true;
-        this.swapCount = swapCount;
-        this.sortName = sortName;
-    }
-
-    void resetDisplay() {
-        isSorted = false;
+    // draws ending display
+    private void drawEndingDisplay(Graphics g) {
+        Font font = new Font("arial", Font.ITALIC, 50);
+        g.setFont(font);
+        g.drawString("Done!", 50, 100);
+        g.drawString(sortName + " took " + swapCount + " swaps to sort", 50, 175);
     }
 
 }

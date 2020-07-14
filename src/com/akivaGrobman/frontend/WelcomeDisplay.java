@@ -8,15 +8,26 @@ import java.awt.*;
 
 class WelcomeDisplay extends JPanel {
 
-    private final JButton startButton;
-    private final JSlider slider;
+    private JButton startButton;
+    private JSlider slider;
 
     WelcomeDisplay(){
         setBackground(green);
-
-        //set as absolute layout
         setLayout(null);
-        //set the slider
+        addSlider();
+        addButton();
+    }
+
+    private void addButton() {
+        startButton = new JButton("Start the simulation");
+        startButton.setFont(new Font("arial", Font.ITALIC, 35));
+        startButton.setSize(350,100);
+        startButton.setForeground(blue);
+        startButton.addActionListener(e -> Main.startSorting(slider.getValue()));
+        add(startButton);
+    }
+
+    private void addSlider() {
         slider = new JSlider();
         slider.setSize(350,100);
         slider.setMajorTickSpacing(20);
@@ -28,23 +39,13 @@ class WelcomeDisplay extends JPanel {
         slider.setValue(60);
         slider.setBackground(green);
         slider.setForeground(blue);
-
         add(slider);
-        //set the start button
-        startButton = new JButton("Start the simulation");
-        startButton.setFont(new Font("arial", Font.ITALIC, 35));
-        startButton.setSize(350,100);
-        startButton.setForeground(blue);
-        startButton.addActionListener(e -> Main.startSorting(slider.getValue()));
-        add(startButton);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Font font = new Font("arial", Font.ITALIC, 50);
-        g.setFont(font);
-        g.setColor(blue);
         String welcomeString = "Welcome to the sorting simulator";
         String instructionsString = "Please select how many numbers you want to sort";
         int textWidth = g.getFontMetrics().stringWidth(welcomeString);
@@ -52,12 +53,14 @@ class WelcomeDisplay extends JPanel {
         int number_of_rows = 6;
         int height = getHeight() / number_of_rows;
         // draws welcome string
+        g.setFont(font);
+        g.setColor(blue);
         g.drawString(welcomeString, width, height);
-        //set the button
+        // set the button
         width = (getWidth() - startButton.getWidth()) / 2;
         height = (2 * (getHeight() - startButton.getHeight())) / number_of_rows;
         startButton.setLocation(width,height + 200);
-        //set the slider
+        // set the slider
         width = (getWidth() - slider.getWidth()) / 2;
         height = (2 * (getHeight() - slider.getHeight())) / number_of_rows;
         slider.setLocation(width, height);

@@ -15,54 +15,57 @@ public class Main {
     private static int listSize;
 
     public static void main(String[] args) {
-        window = new Window();
+        window = new Window(5);
     }
 
     // tells the window to update and updates the list and bar being moved position
-    public static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions) {
+    public synchronized static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions, String sortName) {
+        int index = getIndex(sortName);
         window.validate();
-        window.updateBarBeingMoved(barBeingMovedPosition);
-        window.updateBarBeingEvaluated(evaluatedBarPositions);
-        window.updateList(list);
-        window.refresh();
+        window.updateBarBeingMoved(barBeingMovedPosition, index);
+        window.updateBarBeingEvaluated(evaluatedBarPositions, index);
+        window.updateList(list, index);
+        window.refresh(index);
     }
 
-    public static void startSorting(int listS) {
-        listSize=listS;
-        Thread thread = new Thread(() -> {
-            try {
-                startSorting();
-            } catch (InterruptedException ignored) {}
-        });
-        thread.start();
+    public static void startSorting(int listSize) {
+        Main.listSize = listSize;
+        Thread thread = new Thread(Main::startSorting);
         Window.replacePanels();
+        thread.start();
     }
 
-    private static void startSorting() throws InterruptedException {
+    private static void startSorting() {
         List<Integer> list = getNonOrderedList();
-        runSingeAlgorithm(new QuickSort(list));
+        runAllAlgorithms(list);
 //        System.exit(0);
     }
 
-    private static void runAllAlgorithms(List<Integer> list) throws InterruptedException {
+    private static void runAllAlgorithms(List<Integer> list) {
         // add to array every new sorting algorithm
         SortingAlgorithm[] sortingAlgorithms = new SortingAlgorithm[]{new BubbleSort(new ArrayList<>(list)), new InsertionSort(new ArrayList<>(list)), new MergeSort(new ArrayList<>(list)), new QuickSort(new ArrayList<>(list)), new SelectionSort(new ArrayList<>(list))};
         for (SortingAlgorithm sortingAlgorithm: sortingAlgorithms) {
-            runSingeAlgorithm(sortingAlgorithm);
-            window.resetDisplay();
-
+            Thread sortThread = new Thread(() -> runSingeAlgorithm(sortingAlgorithm));
+            sortThread.start();
         }
     }
 
-    private static void runSingeAlgorithm(SortingAlgorithm sortingAlgorithm) throws InterruptedException {
+    private static void runSingeAlgorithm(SortingAlgorithm sortingAlgorithm) {
         sortingAlgorithm.sort();
-        window.displayFinish(sortingAlgorithm.getClass().getSimpleName(), sortingAlgorithm.getSwapCount());
-        window.refresh();
-        sleep(2500);
+        window.displayFinish(sortingAlgorithm.getClass().getSimpleName(), sortingAlgorithm.getSwapCount(), getIndex(sortingAlgorithm.getClass().getSimpleName()));
+        window.refresh(getIndex(sortingAlgorithm.getClass().getSimpleName()));
+        try {
+            sleep(2500);
+        } catch (InterruptedException ignored) {}
+    }
+
+    private synchronized static int getIndex(String sortName) {
+        String[] sortNames = {BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName(), SelectionSort.class.getSimpleName()};
+        return Arrays.asList(sortNames).indexOf(sortName);
     }
 
     // will return an array to sort
-    private static List<Integer> getNonOrderedList() {
+    private synchronized static List<Integer> getNonOrderedList() {
         List<Integer> list = new ArrayList<>();
         // this represents the numbers already used
         boolean[] usedNumbers = new boolean[listSize];
