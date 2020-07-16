@@ -4,8 +4,8 @@ import java.util.List;
 
 public class SelectionSort extends SortingAlgorithm {
 
-    public SelectionSort(List<Integer> list) {
-        super(list);
+    public SelectionSort(List<Integer> list, Integer index) {
+        super(list, index);
     }
 
     @Override

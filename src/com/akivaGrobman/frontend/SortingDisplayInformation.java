@@ -1,19 +1,21 @@
 package com.akivaGrobman.frontend;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SortingDisplayInformation {
 
+    final Dimension preferredSizeOfDisplayPanel;
+    final String sortName;
     List<Integer> list;
     int barBeingMovedPosition;
-    int swapCount;
     List<Integer> evaluatedBarPositions;
-    boolean isSorted;
-    String sortName;
 
-    SortingDisplayInformation() {
+    SortingDisplayInformation(String sortName) {
+        this.sortName = sortName;
         list = new ArrayList<>();
+        preferredSizeOfDisplayPanel = new Dimension();
     }
 
     // simple setter
@@ -29,18 +31,6 @@ public class SortingDisplayInformation {
     // simple setter
     void setEvaluatedBarPositions(List<Integer> position) {
         evaluatedBarPositions = position;
-    }
-
-    // will reset the display
-    void resetDisplay() {
-        isSorted = false;
-    }
-
-    // simple setter
-    void displayFinish(String sortName, int swapCount) {
-        isSorted = true;
-        this.swapCount = swapCount;
-        this.sortName = sortName;
     }
 
 }

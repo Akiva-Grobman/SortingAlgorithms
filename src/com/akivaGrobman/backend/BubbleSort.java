@@ -4,8 +4,8 @@ import java.util.List;
 
 public class BubbleSort extends SortingAlgorithm{
 
-    public BubbleSort(List<Integer> list) {
-        super(list);
+    public BubbleSort(List<Integer> list, Integer index) {
+        super(list, index);
     }
 
     @Override

@@ -2,30 +2,35 @@ package com.akivaGrobman;
 
 import com.akivaGrobman.backend.*;
 import com.akivaGrobman.frontend.Window;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
 import static java.lang.Thread.sleep;
 
 public class Main {
 
+    // every time a new sort is added this must be updated
+    private final static String[] sortNames = {BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName(), SelectionSort.class.getSimpleName()};
     private static Window window;
     private static int listSize;
 
     public static void main(String[] args) {
-        window = new Window(5);
+        window = new Window(sortNames.length);
     }
 
     // tells the window to update and updates the list and bar being moved position
-    public synchronized static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions, String sortName) {
-        int index = getIndex(sortName);
+    public synchronized static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions, int index) {
         window.validate();
         window.updateBarBeingMoved(barBeingMovedPosition, index);
         window.updateBarBeingEvaluated(evaluatedBarPositions, index);
         window.updateList(list, index);
         window.refresh(index);
+    }
+
+    public static String getSortName(int index) {
+        return sortNames[index];
     }
 
     public static void startSorting(int listSize) {
@@ -36,40 +41,51 @@ public class Main {
     }
 
     private static void startSorting() {
-        List<Integer> list = getNonOrderedList();
+        List<Integer> list = getNonOrderedList(false);
         runAllAlgorithms(list);
-//        System.exit(0);
     }
 
     private static void runAllAlgorithms(List<Integer> list) {
-        // add to array every new sorting algorithm
-        SortingAlgorithm[] sortingAlgorithms = new SortingAlgorithm[]{new BubbleSort(new ArrayList<>(list)), new InsertionSort(new ArrayList<>(list)), new MergeSort(new ArrayList<>(list)), new QuickSort(new ArrayList<>(list)), new SelectionSort(new ArrayList<>(list))};
-        for (SortingAlgorithm sortingAlgorithm: sortingAlgorithms) {
-            Thread sortThread = new Thread(() -> runSingeAlgorithm(sortingAlgorithm));
+        int index = 0;
+        for (String sortingAlgorithmName: sortNames) {
+            int finalIndex = index;
+            Thread sortThread = new Thread(() -> runSingeAlgorithm(getSortingAlgorithmByName(sortingAlgorithmName, new ArrayList<>(list), finalIndex)));
+            index++;
             sortThread.start();
         }
     }
 
     private static void runSingeAlgorithm(SortingAlgorithm sortingAlgorithm) {
         sortingAlgorithm.sort();
-        window.displayFinish(sortingAlgorithm.getClass().getSimpleName(), sortingAlgorithm.getSwapCount(), getIndex(sortingAlgorithm.getClass().getSimpleName()));
-        window.refresh(getIndex(sortingAlgorithm.getClass().getSimpleName()));
+        window.refresh(sortingAlgorithm.index);
         try {
             sleep(2500);
         } catch (InterruptedException ignored) {}
     }
 
-    private synchronized static int getIndex(String sortName) {
-        String[] sortNames = {BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName(), SelectionSort.class.getSimpleName()};
-        return Arrays.asList(sortNames).indexOf(sortName);
+    private static SortingAlgorithm getSortingAlgorithmByName(String sortingAlgorithmName, List<Integer> list, int index) {
+        try {
+            //todo change to non literal
+            Class<?> cls = Class.forName("com.akivaGrobman.backend." + sortingAlgorithmName);
+            Class<?>[] paramTypes = {java.util.List.class, Integer.class};
+            return (SortingAlgorithm) cls.getDeclaredConstructor(paramTypes).newInstance(list, index);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
+            throw new Error(e.getMessage());
+        }
     }
 
     // will return an array to sort
-    private synchronized static List<Integer> getNonOrderedList() {
+    private static List<Integer> getNonOrderedList(@SuppressWarnings("SameParameterValue") boolean withRepetitions) {
         List<Integer> list = new ArrayList<>();
+        Random randomNumberGenerator = new Random();
+        if(withRepetitions) {
+            for (int i = 0; i < listSize; i++) {
+                list.add(randomNumberGenerator.nextInt(listSize));
+            }
+            return list;
+        }
         // this represents the numbers already used
         boolean[] usedNumbers = new boolean[listSize];
-        Random randomNumberGenerator = new Random();
         // this is because we start off with no numbers used
         Arrays.fill(usedNumbers, false);
         for (int i = 0; i < listSize; i++) {

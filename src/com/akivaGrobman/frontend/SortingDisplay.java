@@ -7,20 +7,14 @@ import java.awt.*;
 class SortingDisplay extends JPanel {
 
     private final SortingDisplayInformation sortingDisplayInformation;
-    private final int MINIMUM_HEIGHT = 10;
+    private final int MINIMUM_HEIGHT = 10; // todo might want to change this from a literal value
     private double HEIGHT_MARGIN;
     private int FLOOR_HEIGHT;
-    private boolean isSorted;
 
-    SortingDisplay(SortingDisplayInformation sortingDisplayInformation) {
+    SortingDisplay(SortingDisplayInformation sortingDisplayInformation, Dimension preferredDisplayPanelSize) {
         this.sortingDisplayInformation = sortingDisplayInformation;
-        isSorted = false;
+        setPreferredSize(preferredDisplayPanelSize);
         setBackground(green);
-    }
-
-    // will reset the display
-    void resetDisplay() {
-        isSorted = false;
     }
 
     @Override
@@ -28,23 +22,26 @@ class SortingDisplay extends JPanel {
         super.paintComponent(g);
         FLOOR_HEIGHT = getHeight() / 20;
         HEIGHT_MARGIN = (getHeight() - (getHeight() / (double)sortingDisplayInformation.list.size())) / (double)sortingDisplayInformation.list.size();
-        int yResize = 1;
-        // this will make sure we don't go off screen
-        yResize = getYResize(yResize);
-        // drawing the black "floor"
+        // draw sort name
+        g.setColor(blue);
+        g.drawString(sortingDisplayInformation.sortName, (getWidth() - g.getFontMetrics().stringWidth(sortingDisplayInformation.sortName)) / 2, getHeight() / 5);
+        // draw "floor"
+        drawFloor(g);
+        // draw elements
+        drawElements(g);
+    }
+
+    // draws the floor in black and writes which sort is being used
+    private void drawFloor(Graphics g) {
         g.setColor(Color.black);
         g.fillRect(0, getHeight() - FLOOR_HEIGHT, getWidth(), FLOOR_HEIGHT);
-        // draw elements
-        drawElements(g, yResize);
-        if(isSorted) {
-            drawEndingDisplay(g);
-        }
     }
 
     // draws the elements
-    private void drawElements(Graphics g, int yResize) {
+    private void drawElements(Graphics g) {
         final int listSize = sortingDisplayInformation.list.size();
         final double WIDTH_MARGIN = (getWidth() / 2d) / (double) listSize;
+        int yResize = getYResize();
         int x = (int) WIDTH_MARGIN;
         int y;
         g.setColor(blue);
@@ -66,7 +63,7 @@ class SortingDisplay extends JPanel {
             g.fillRect(x, y, (int) WIDTH_MARGIN, (int) ((element * HEIGHT_MARGIN + MINIMUM_HEIGHT) / yResize));
             g.setColor(blue);
             // if there's room on screen will draw the element value above the rectangle
-            if(listSize < 100) { // todo might always want to resize
+            if(yResize == 1) {
                 g.drawString(String.valueOf(element), x, y - 20);
             }
             // moving next x by the size of the rectangle X 2, one for the actual rectangle and one for the space between the rectangles
@@ -75,7 +72,8 @@ class SortingDisplay extends JPanel {
     }
 
     // will get the resize factor (this will change with the screen size and sum of elements)
-    private int getYResize(int yResize) {
+    private int getYResize() {
+        int yResize = 1;
         // going off screen can happen if the number of elements is to large if this does happen we divided all y's by our resize var which will grow relatively to the sum of elements
         int minY = Integer.MAX_VALUE;
         // find the tallest element in the array
@@ -93,14 +91,6 @@ class SortingDisplay extends JPanel {
     private int getY(int i) {
         // setting y relative to the "floor", element height, and minimum height(in case the elements value is 0 it will still get represented
         return (int) ((getHeight() - FLOOR_HEIGHT) - (i * HEIGHT_MARGIN) - MINIMUM_HEIGHT);
-    }
-
-    // draws ending display
-    private void drawEndingDisplay(Graphics g) {
-        Font font = new Font("arial", Font.ITALIC, 50);
-        g.setFont(font);
-        g.drawString("Done!", 50, 100);
-        g.drawString(sortingDisplayInformation.sortName + " took " + sortingDisplayInformation.swapCount + " swaps to sort", 50, 175);
     }
 
 }

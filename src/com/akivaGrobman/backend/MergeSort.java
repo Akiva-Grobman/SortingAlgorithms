@@ -4,8 +4,8 @@ import java.util.List;
 
 public class MergeSort extends SortingAlgorithm {
 
-    public MergeSort(List<Integer> list) {
-        super(list);
+    public MergeSort(List<Integer> list, Integer index) {
+        super(list, index);
     }
 
     @Override
@@ -50,14 +50,12 @@ public class MergeSort extends SortingAlgorithm {
                 j++;
             }
             setSortedElementPosition(k);
-            updateSwapCount();
             updateDisplay();
             k++;
         }
         while (i < newLeftMiddle) {
             list.set(k, leftArray[i]);
             setSortedElementPosition(k);
-            updateSwapCount();
             updateDisplay();
             i++;
             k++;
@@ -65,7 +63,6 @@ public class MergeSort extends SortingAlgorithm {
         while (j < newRightMiddle) {
             list.set(k, rightArray[j]);
             setSortedElementPosition(k);
-            updateSwapCount();
             updateDisplay();
             j++;
             k++;

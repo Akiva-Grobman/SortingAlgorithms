@@ -4,8 +4,8 @@ import java.util.List;
 
 public class InsertionSort extends SortingAlgorithm{
 
-    public InsertionSort(List<Integer> list) {
-        super(list);
+    public InsertionSort(List<Integer> list, Integer index) {
+        super(list, index);
     }
 
     @Override

@@ -4,8 +4,8 @@ import java.util.List;
 
 public class QuickSort extends SortingAlgorithm {
 
-    public QuickSort(List<Integer> list) {
-        super(list);
+    public QuickSort(List<Integer> list, Integer index) {
+        super(list, index);
     }
 
     @Override

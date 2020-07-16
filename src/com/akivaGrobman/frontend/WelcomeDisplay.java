@@ -18,30 +18,6 @@ class WelcomeDisplay extends JPanel {
         addButton();
     }
 
-    private void addButton() {
-        startButton = new JButton("Start the simulation");
-        startButton.setFont(new Font("arial", Font.ITALIC, 35));
-        startButton.setSize(350,100);
-        startButton.setForeground(blue);
-        startButton.addActionListener(e -> Main.startSorting(slider.getValue()));
-        add(startButton);
-    }
-
-    private void addSlider() {
-        slider = new JSlider();
-        slider.setSize(350,100);
-        slider.setMajorTickSpacing(20);
-        slider.setMinorTickSpacing(10);
-        slider.setMaximum(100);
-        slider.setMinimum(20);
-        slider.setPaintLabels(true);
-        slider.setPaintTicks(true);
-        slider.setValue(60);
-        slider.setBackground(green);
-        slider.setForeground(blue);
-        add(slider);
-    }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -71,6 +47,30 @@ class WelcomeDisplay extends JPanel {
         width = (getWidth() - startButton.getWidth()) / 2;
         height = (2 * (getHeight() - startButton.getHeight())) / number_of_rows;
         startButton.setLocation(width,height + 2 * (getHeight() / number_of_rows));
+    }
+
+    private void addButton() {
+        startButton = new JButton("Start the simulation");
+        startButton.setFont(new Font("arial", Font.ITALIC, 35));
+        startButton.setSize(350,100);
+        startButton.setForeground(blue);
+        startButton.addActionListener(e -> Main.startSorting(slider.getValue()));
+        add(startButton);
+    }
+
+    private void addSlider() {
+        slider = new JSlider();
+        slider.setSize(350,100);
+        slider.setMajorTickSpacing(20);
+        slider.setMinorTickSpacing(10);
+        slider.setMaximum(100);
+        slider.setMinimum(20);
+        slider.setPaintLabels(true);
+        slider.setPaintTicks(true);
+        slider.setValue(60);
+        slider.setBackground(green);
+        slider.setForeground(blue);
+        add(slider);
     }
 
 }

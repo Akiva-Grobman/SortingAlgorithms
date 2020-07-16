@@ -7,16 +7,16 @@ import java.util.List;
 
 public abstract class SortingAlgorithm {
 
+    public final int index;
     private static final int SORTING_SPEED = 5;
     private int elementBeingSortedPosition;
     private List<Integer> evaluatedElementsPosition;
-    private int swapCount;
     protected List<Integer> list;
 
-    public SortingAlgorithm(List<Integer> list) {
+    public SortingAlgorithm(List<Integer> list, int index) {
+        this.index = index;
         this.list = list;
         evaluatedElementsPosition = new ArrayList<>();
-        swapCount = 0;
     }
 
     // every sorting algorithm will need to be able to sort(duh)
@@ -27,7 +27,6 @@ public abstract class SortingAlgorithm {
         int temp = list.get(i);
         list.set(i, list.get(j));
         list.set(j, temp);
-        updateSwapCount();
     }
 
     protected void setSortedElementPosition(int position) {
@@ -41,7 +40,7 @@ public abstract class SortingAlgorithm {
     // this method should always be call right after the swap method is called
     protected void updateDisplay() {
         // calls the main update method that will update the onscreen display
-        Main.updateDisplay(list, elementBeingSortedPosition, evaluatedElementsPosition, this.getClass().getSimpleName());
+        Main.updateDisplay(list, elementBeingSortedPosition, evaluatedElementsPosition, index);
         evaluatedElementsPosition = new ArrayList<>();
         try {
             //adds a small delay to rendering so the human eye can appreciate it
@@ -49,13 +48,4 @@ public abstract class SortingAlgorithm {
         } catch (InterruptedException ignored) {}
     }
 
-    // will add one to the swap count
-    protected void updateSwapCount() {
-        swapCount++;
-    }
-
-    // simple getter
-    public int getSwapCount() {
-        return swapCount;
-    }
 }

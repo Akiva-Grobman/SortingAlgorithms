@@ -1,5 +1,7 @@
 package com.akivaGrobman.frontend;
 
+import com.akivaGrobman.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -26,16 +28,24 @@ public class Window extends JFrame {
         WelcomeDisplay welcomeDisplay = new WelcomeDisplay();
         panelCont.add(welcomeDisplay, welcomeDisplayKey);
 
+        // set display panel(that will contain all of the display panels
+        JPanel panel = new JPanel();
+        panel.setBackground(green);
+        GridLayout sortingDisplayLayout = new GridLayout(getLayoutHeight(numberOfAlgorithms), getLayoutWidth(numberOfAlgorithms));
+        panel.setLayout(sortingDisplayLayout);
+        Dimension preferredDisplayPanelSize = new Dimension(getWidth() / sortingDisplayLayout.getColumns(), getHeight() / sortingDisplayLayout.getRows());
+
+        // initialize display panels and display info objects
         sortingDisplays = new SortingDisplay[numberOfAlgorithms];
         sortingDisplayInformation = new SortingDisplayInformation[numberOfAlgorithms];
         for (int i = 0; i < numberOfAlgorithms; i++) {
-            sortingDisplayInformation[i] = new SortingDisplayInformation();
-            sortingDisplays[i] = new SortingDisplay(sortingDisplayInformation[i]);
+            sortingDisplayInformation[i] = new SortingDisplayInformation(Main.getSortName(i));
+            sortingDisplays[i] = new SortingDisplay(sortingDisplayInformation[i], preferredDisplayPanelSize);
         }
 
-        JPanel panel = new JPanel();
+        // add display panels to panel
         for (SortingDisplay sortingDisplay : sortingDisplays) {
-            sortingDisplay.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            sortingDisplay.setBorder(BorderFactory.createLineBorder(blue));
             panel.add(sortingDisplay);
         }
 
@@ -64,18 +74,21 @@ public class Window extends JFrame {
         sortingDisplays[index].repaint();
     }
 
-    // simple setter
-    public void displayFinish(String sortName, int swapCount, int index) {
-        sortingDisplayInformation[index].displayFinish(sortName, swapCount);
-    }
-
-    public void resetDisplay(int index) {
-        sortingDisplays[index].resetDisplay();
-    }
-
-    // will make the sorting display panel the one being seen
-    public void replacePanels(){
+    // will set the sorting display panel to the on visible
+    public void replacePanels() {
         cardLayout.show(panelCont, sortingDisplayKey);
+    }
+
+    private int getLayoutWidth(int numberOfAlgorithms) {
+        return (int) Math.floor(Math.sqrt(numberOfAlgorithms));
+    }
+
+    private int getLayoutHeight(int numberOfAlgorithms) {
+        int height = (int) Math.floor(Math.sqrt(numberOfAlgorithms));
+        if(numberOfAlgorithms % height != 0) {
+            height++;
+        }
+        return height;
     }
 
 }
