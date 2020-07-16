@@ -2,7 +2,6 @@ package com.akivaGrobman.frontend;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 import java.util.List;
 
 public class Window extends JFrame {
@@ -12,6 +11,7 @@ public class Window extends JFrame {
     private static final String sortingDisplayKey = Window.class.getSimpleName();
     private static final String welcomeDisplayKey = WelcomeDisplay.class.getSimpleName();
     private final SortingDisplay[] sortingDisplays;
+    private final SortingDisplayInformation[] sortingDisplayInformation;
     private final JPanel panelCont;
     private final CardLayout cardLayout;
 
@@ -27,13 +27,16 @@ public class Window extends JFrame {
         panelCont.add(welcomeDisplay, welcomeDisplayKey);
 
         sortingDisplays = new SortingDisplay[numberOfAlgorithms];
-        Arrays.fill(sortingDisplays, new SortingDisplay());
+        sortingDisplayInformation = new SortingDisplayInformation[numberOfAlgorithms];
+        for (int i = 0; i < numberOfAlgorithms; i++) {
+            sortingDisplayInformation[i] = new SortingDisplayInformation();
+            sortingDisplays[i] = new SortingDisplay(sortingDisplayInformation[i]);
+        }
 
         JPanel panel = new JPanel();
         for (SortingDisplay sortingDisplay : sortingDisplays) {
             sortingDisplay.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             panel.add(sortingDisplay);
-
         }
 
         panelCont.add(panel, sortingDisplayKey);
@@ -43,20 +46,17 @@ public class Window extends JFrame {
 
     // simple setter that will call the refresh method after updating the list of elements
     public void updateList(List<Integer> list, int index) {
-        sortingDisplays[index].setList(list);
-//        sortingDisplay.setList(list);
+        sortingDisplayInformation[index].setList(list);
     }
 
     // will update the bar being moved (so it can be displayed differently)
     public void updateBarBeingMoved(int position, int index) {
-        sortingDisplays[index].setBarBeingMovedPosition(position);
-//        sortingDisplay.setBarBeingMovedPosition(position);
+        sortingDisplayInformation[index].setBarBeingMovedPosition(position);
     }
 
     // will update the bar being compared to the one being moved (so it can be displayed differently)
     public void updateBarBeingEvaluated(List<Integer> evaluatedBarPositions, int index) {
-        sortingDisplays[index].setEvaluatedBarPositions(evaluatedBarPositions);
-//        sortingDisplay.setEvaluatedBarPositions(evaluatedBarPositions);
+        sortingDisplayInformation[index].setEvaluatedBarPositions(evaluatedBarPositions);
     }
 
     // will update on screen display
@@ -66,8 +66,7 @@ public class Window extends JFrame {
 
     // simple setter
     public void displayFinish(String sortName, int swapCount, int index) {
-        sortingDisplays[index].displayFinish(sortName, swapCount);
-//        sortingDisplay.displayFinish(sortName, swapCount);
+        sortingDisplayInformation[index].displayFinish(sortName, swapCount);
     }
 
     public void resetDisplay(int index) {
