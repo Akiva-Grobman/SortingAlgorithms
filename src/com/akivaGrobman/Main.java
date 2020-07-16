@@ -31,7 +31,7 @@ public class Main {
     public static void startSorting(int listSize) {
         Main.listSize = listSize;
         Thread thread = new Thread(Main::startSorting);
-        Window.replacePanels();
+        window.replacePanels();
         thread.start();
     }
 

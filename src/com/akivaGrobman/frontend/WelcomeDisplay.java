@@ -48,28 +48,29 @@ class WelcomeDisplay extends JPanel {
         Font font = new Font("arial", Font.ITALIC, 50);
         String welcomeString = "Welcome to the sorting simulator";
         String instructionsString = "Please select how many numbers you want to sort";
-        int textWidth = g.getFontMetrics().stringWidth(welcomeString);
-        int width = (getWidth()-textWidth) / 2;
-        int number_of_rows = 6;
-        int height = getHeight() / number_of_rows;
         // draws welcome string
+        int number_of_rows = 6;
         g.setFont(font);
+        int textWidth = g.getFontMetrics().stringWidth(welcomeString);
+        int width = (getWidth() - textWidth) / 2;
+        int height = (getHeight() - (int) font.createGlyphVector(g.getFontMetrics().getFontRenderContext(), instructionsString).getVisualBounds().getHeight()) / number_of_rows;
         g.setColor(blue);
         g.drawString(welcomeString, width, height);
-        // set the button
-        width = (getWidth() - startButton.getWidth()) / 2;
-        height = (2 * (getHeight() - startButton.getHeight())) / number_of_rows;
-        startButton.setLocation(width,height + 200);
-        // set the slider
+        // set the slider (this is done before the string that's rendered above so we can draw the string relative to this height
         width = (getWidth() - slider.getWidth()) / 2;
-        height = (2 * (getHeight() - slider.getHeight())) / number_of_rows;
+        height = (getHeight() - slider.getHeight()) / 2;
         slider.setLocation(width, height);
         // draws instructions string
         font = new Font("arial", Font.ITALIC, 20);
         g.setFont(font);
         textWidth = g.getFontMetrics().stringWidth(instructionsString);
         width = (getWidth() - textWidth) / 2;
+        height -= (int) font.createGlyphVector(g.getFontMetrics().getFontRenderContext(), instructionsString).getVisualBounds().getHeight();
         g.drawString(instructionsString, width, height);
+        // set the button
+        width = (getWidth() - startButton.getWidth()) / 2;
+        height = (2 * (getHeight() - startButton.getHeight())) / number_of_rows;
+        startButton.setLocation(width,height + 2 * (getHeight() / number_of_rows));
     }
 
 }
