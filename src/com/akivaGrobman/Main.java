@@ -12,7 +12,7 @@ import static java.lang.Thread.sleep;
 public class Main {
 
     // every time a new sort is added this must be updated
-    private final static String[] sortNames = {BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName(), SelectionSort.class.getSimpleName(), BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName(), BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName()};
+    private final static String[] sortNames = {BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName(), SelectionSort.class.getSimpleName()};
     private static Window window;
     private static int listSize;
 
@@ -21,18 +21,20 @@ public class Main {
     }
 
     // tells the window to update and updates the list and bar being moved position
-    public synchronized static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions, int index) {
+    public synchronized static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions, int id) {
         window.validate();
-        window.updateBarBeingMoved(barBeingMovedPosition, index);
-        window.updateBarBeingEvaluated(evaluatedBarPositions, index);
-        window.updateList(list, index);
-        window.refresh(index);
+        window.updateBarBeingMoved(barBeingMovedPosition, id);
+        window.updateBarBeingEvaluated(evaluatedBarPositions, id);
+        window.updateList(list, id);
+        window.refresh(id);
     }
 
+    // simple getter
     public static String getSortName(int index) {
         return sortNames[index];
     }
 
+    // will be called when the button(start sorting) is clicked on the screen
     public static void startSorting(int listSize) {
         Main.listSize = listSize;
         Thread thread = new Thread(Main::startSorting);
@@ -40,11 +42,13 @@ public class Main {
         thread.start();
     }
 
+    // will generate a list to sort and then sort it
     private static void startSorting() {
         List<Integer> list = getNonOrderedList(false);
         runAllAlgorithms(list);
     }
 
+    // will run all the algorithms in the sortNams array
     private static void runAllAlgorithms(List<Integer> list) {
         int index = 0;
         for (String sortingAlgorithmName: sortNames) {
@@ -55,14 +59,16 @@ public class Main {
         }
     }
 
+    // runs the actual sorting algorithm
     private static void runSingeAlgorithm(SortingAlgorithm sortingAlgorithm) {
         sortingAlgorithm.sort();
-        window.refresh(sortingAlgorithm.index);
+        window.refresh(sortingAlgorithm.Id);
         try {
             sleep(2500);
         } catch (InterruptedException ignored) {}
     }
 
+    // will return a SortingAlgorithm object from sortingAlgorithm name(String)
     private static SortingAlgorithm getSortingAlgorithmByName(String sortingAlgorithmName, List<Integer> list, int index) {
         try {
             //todo change to non literal

@@ -31,7 +31,7 @@ public class Window extends JFrame {
         // set display panel(that will contain all of the display panels
         JPanel panel = new JPanel();
         panel.setBackground(green);
-        GridLayout sortingDisplayLayout = new GridLayout(getLayoutHeight(numberOfAlgorithms), getLayoutWidth(numberOfAlgorithms));
+        GridLayout sortingDisplayLayout = new GridLayout(getLayoutRowCount(numberOfAlgorithms), getLayoutColumnCount(numberOfAlgorithms));
         panel.setLayout(sortingDisplayLayout);
         Dimension preferredDisplayPanelSize = new Dimension(getWidth() / sortingDisplayLayout.getColumns(), getHeight() / sortingDisplayLayout.getRows());
 
@@ -79,11 +79,12 @@ public class Window extends JFrame {
         cardLayout.show(panelCont, sortingDisplayKey);
     }
 
-    private int getLayoutWidth(int numberOfAlgorithms) {
+    // these two methods keep this "matrix" as geometrical as possible
+    private int getLayoutColumnCount(int numberOfAlgorithms) {
         return (int) Math.floor(Math.sqrt(numberOfAlgorithms));
     }
 
-    private int getLayoutHeight(int numberOfAlgorithms) {
+    private int getLayoutRowCount(int numberOfAlgorithms) {
         int height = (int) Math.floor(Math.sqrt(numberOfAlgorithms));
         if(numberOfAlgorithms % height != 0) {
             height++;

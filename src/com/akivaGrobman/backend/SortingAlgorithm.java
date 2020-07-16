@@ -7,14 +7,14 @@ import java.util.List;
 
 public abstract class SortingAlgorithm {
 
-    public final int index;
+    public final int Id;
     private static final int SORTING_SPEED = 5;
     private int elementBeingSortedPosition;
     private List<Integer> evaluatedElementsPosition;
     protected List<Integer> list;
 
-    public SortingAlgorithm(List<Integer> list, int index) {
-        this.index = index;
+    public SortingAlgorithm(List<Integer> list, int Id) {
+        this.Id = Id;
         this.list = list;
         evaluatedElementsPosition = new ArrayList<>();
     }
@@ -40,7 +40,7 @@ public abstract class SortingAlgorithm {
     // this method should always be call right after the swap method is called
     protected void updateDisplay() {
         // calls the main update method that will update the onscreen display
-        Main.updateDisplay(list, elementBeingSortedPosition, evaluatedElementsPosition, index);
+        Main.updateDisplay(list, elementBeingSortedPosition, evaluatedElementsPosition, Id);
         evaluatedElementsPosition = new ArrayList<>();
         try {
             //adds a small delay to rendering so the human eye can appreciate it
