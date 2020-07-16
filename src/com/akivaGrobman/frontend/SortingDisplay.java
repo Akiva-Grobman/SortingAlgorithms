@@ -40,9 +40,9 @@ class SortingDisplay extends JPanel {
     // draws the elements
     private void drawElements(Graphics g) {
         final int listSize = sortingDisplayInformation.list.size();
-        final double WIDTH_MARGIN = (getWidth() / 2d) / (double) listSize;
+        final double WIDTH_MARGIN = (getWidth() / (double) listSize) / 2d;
         int yResize = getYResize();
-        int x = (int) WIDTH_MARGIN;
+        int x = 2 * (int) WIDTH_MARGIN;
         int y;
         g.setColor(blue);
         for (int i = 0; i < listSize; i++) {

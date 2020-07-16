@@ -12,7 +12,7 @@ import static java.lang.Thread.sleep;
 public class Main {
 
     // every time a new sort is added this must be updated
-    private final static String[] sortNames = {BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName(), SelectionSort.class.getSimpleName()};
+    private final static String[] sortNames = {BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName(), SelectionSort.class.getSimpleName(), BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName(), BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName()};
     private static Window window;
     private static int listSize;
 
