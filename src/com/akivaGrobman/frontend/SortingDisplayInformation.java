@@ -6,7 +6,12 @@ import java.util.List;
 
 public class SortingDisplayInformation {
 
-    final Dimension preferredSizeOfDisplayPanel;
+    /*
+     *  This object will be tied to a SortingDisplay.
+     *  And will contain the information necessary to have.
+     *  (the list; what element is being move; etc)
+     */
+
     final String sortName;
     List<Integer> list;
     int barBeingMovedPosition;
@@ -15,7 +20,6 @@ public class SortingDisplayInformation {
     SortingDisplayInformation(String sortName) {
         this.sortName = sortName;
         list = new ArrayList<>();
-        preferredSizeOfDisplayPanel = new Dimension();
     }
 
     // simple setter
