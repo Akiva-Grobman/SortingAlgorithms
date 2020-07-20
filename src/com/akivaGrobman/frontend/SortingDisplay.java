@@ -24,6 +24,8 @@ class SortingDisplay extends JPanel {
         HEIGHT_MARGIN = (getHeight() - (getHeight() / (double)sortingDisplayInformation.list.size())) / (double)sortingDisplayInformation.list.size();
         // draw sort name
         g.setColor(blue);
+        Font font = new Font(g.getFont().getFontName(), g.getFont().getStyle(), getHeight() / 15);
+        g.setFont(font);
         g.drawString(sortingDisplayInformation.sortName, (getWidth() - g.getFontMetrics().stringWidth(sortingDisplayInformation.sortName)) / 2, getHeight() / 5);
         // draw "floor"
         drawFloor(g);

@@ -21,6 +21,8 @@ public class Window extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setTitle("Sorting visualizer - By Akiva Grobman");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(800, 438));
+        setLocationRelativeTo(null);
         // we use the card layout so we can switch the panel on display
         panelCont = new JPanel();
         cardLayout = new CardLayout();
