@@ -29,18 +29,21 @@ public abstract class SortingAlgorithm {
         list.set(j, temp);
     }
 
+    // simple setter
     protected void setSortedElementPosition(int position) {
         elementBeingSortedPosition = position;
     }
 
+    // simple setter
     protected void addToEvaluatedElements(int position) {
         evaluatedElementsPosition.add(position);
     }
 
     // this method should always be call right after the swap method is called
     protected void updateDisplay() {
-        // calls the main update method that will update the onscreen display
+        // calls the main update method that will update the specific display that has this algorithm
         Main.updateDisplay(list, elementBeingSortedPosition, evaluatedElementsPosition, Id);
+        // reset this list
         evaluatedElementsPosition = new ArrayList<>();
         try {
             //adds a small delay to rendering so the human eye can appreciate it
