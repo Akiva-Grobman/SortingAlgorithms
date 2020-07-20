@@ -11,12 +11,19 @@ import static java.lang.Thread.sleep;
 
 public class Main {
 
+    /*
+     *  This program is dependent on the sortNames array.
+     *  The display and backend are determined by the length and sort names in side it.
+     *  Every new Algorithm that's added, should be represented in the sort names array. (preferably SortingAlgorithmName.class.getSimpleName() )
+     */
+
     // every time a new sort is added this must be updated
     private final static String[] sortNames = {BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName(), SelectionSort.class.getSimpleName()};
     private static Window window;
     private static int listSize;
 
     public static void main(String[] args) {
+        // the parameter is the number of sorts on display
         window = new Window(sortNames.length);
     }
 
@@ -48,7 +55,7 @@ public class Main {
         runAllAlgorithms(list);
     }
 
-    // will run all the algorithms in the sortNams array
+    // will run all the algorithms in the sortNames array
     private static void runAllAlgorithms(List<Integer> list) {
         int index = 0;
         for (String sortingAlgorithmName: sortNames) {
