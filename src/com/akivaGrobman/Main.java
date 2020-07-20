@@ -27,12 +27,15 @@ public class Main {
         window = new Window(sortNames.length);
     }
 
-    // tells the window to update and updates the list and bar being moved position
+    // will update a specific algorithm on the display window
     public synchronized static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions, int id) {
+        // will make sure the change will be visible
         window.validate();
+        // will update the sorting algorithms variables(the actual list; what element is being moved at the moment; and what elements are being evaluated)
         window.updateBarBeingMoved(barBeingMovedPosition, id);
         window.updateBarBeingEvaluated(evaluatedBarPositions, id);
         window.updateList(list, id);
+        // will update the specific panel that contain the algorithm being updated
         window.refresh(id);
     }
 
@@ -43,44 +46,54 @@ public class Main {
 
     // will be called when the button(start sorting) is clicked on the screen
     public static void startSorting(int listSize) {
+        // this will be chosen by the user in the welcome display
         Main.listSize = listSize;
-        Thread thread = new Thread(Main::startSorting);
+        // this thread will handel the sorting (back and front end)
+        Thread thread = new Thread(() -> {
+            // will get a non sorted list
+            List<Integer> list = getNonOrderedList(false);
+            // will sort the list using all the algorithms that are in the sortNames array
+            runAllAlgorithms(list);
+        });
+        // this will put the sorting algorithms on display(and remove the welcome display)
         window.replacePanels();
+        // will start the sorting once they are on display
         thread.start();
-    }
-
-    // will generate a list to sort and then sort it
-    private static void startSorting() {
-        List<Integer> list = getNonOrderedList(false);
-        runAllAlgorithms(list);
     }
 
     // will run all the algorithms in the sortNames array
     private static void runAllAlgorithms(List<Integer> list) {
-        int index = 0;
+        int sortingAlgorithmID = 0;
         for (String sortingAlgorithmName: sortNames) {
-            int finalIndex = index;
-            Thread sortThread = new Thread(() -> runSingeAlgorithm(getSortingAlgorithmByName(sortingAlgorithmName, new ArrayList<>(list), finalIndex)));
-            index++;
+            // will make a final variable so it can be passed as a parameter to the thread lambda
+            final int finalSortingAlgorithmID = sortingAlgorithmID;
+            // will get a SortingAlgorithm object by the name of the algorithm(will pass a list to sort, and an id for the algorithm)
+            SortingAlgorithm sortingAlgorithm = getSortingAlgorithmByName(sortingAlgorithmName, new ArrayList<>(list), finalSortingAlgorithmID);
+            // this thread will sort this specific algorithm (and update the window as it does so)
+            Thread sortThread = new Thread(() -> runSingeAlgorithm(sortingAlgorithm));
+            // change the id
+            sortingAlgorithmID++;
+            // start sorting the algorithm
             sortThread.start();
         }
     }
 
     // runs the actual sorting algorithm
     private static void runSingeAlgorithm(SortingAlgorithm sortingAlgorithm) {
+        // will sort the list and update the on screen display in real time
         sortingAlgorithm.sort();
         window.refresh(sortingAlgorithm.Id);
-        try {
-            sleep(2500);
-        } catch (InterruptedException ignored) {}
     }
 
     // will return a SortingAlgorithm object from sortingAlgorithm name(String)
     private static SortingAlgorithm getSortingAlgorithmByName(String sortingAlgorithmName, List<Integer> list, int index) {
         try {
-            //todo change to non literal
+            // will create a SoringAlgorithm class
+            //                           todo change to non literal
             Class<?> cls = Class.forName("com.akivaGrobman.backend." + sortingAlgorithmName);
+            // array of the constructor arguments the SortingAlgorithm class takes
             Class<?>[] paramTypes = {java.util.List.class, Integer.class};
+            // will return an instance of SortingAlgorithm with list and index as it's constructor arguments
             return (SortingAlgorithm) cls.getDeclaredConstructor(paramTypes).newInstance(list, index);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
             throw new Error(e.getMessage());
@@ -91,12 +104,14 @@ public class Main {
     private static List<Integer> getNonOrderedList(@SuppressWarnings("SameParameterValue") boolean withRepetitions) {
         List<Integer> list = new ArrayList<>();
         Random randomNumberGenerator = new Random();
+        // will return an array that might contain the same element(number)
         if(withRepetitions) {
             for (int i = 0; i < listSize; i++) {
                 list.add(randomNumberGenerator.nextInt(listSize));
             }
             return list;
         }
+        // will return an array that doesn't contain the same element(number)
         // this represents the numbers already used
         boolean[] usedNumbers = new boolean[listSize];
         // this is because we start off with no numbers used
