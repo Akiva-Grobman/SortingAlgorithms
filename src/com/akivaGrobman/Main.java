@@ -17,7 +17,6 @@ public class Main {
      *  Every new Algorithm that's added, should be represented in the sort names array. (preferably SortingAlgorithmName.class.getSimpleName() )
      */
 
-    // every time a new sort is added this must be updated
     private final static String[] sortNames = {BubbleSort.class.getSimpleName(), InsertionSort.class.getSimpleName(), MergeSort.class.getSimpleName(), QuickSort.class.getSimpleName(), SelectionSort.class.getSimpleName()};
     private static Window window;
     private static int listSize;
@@ -31,11 +30,11 @@ public class Main {
     public synchronized static void updateDisplay(List<Integer> list, int barBeingMovedPosition, List<Integer> evaluatedBarPositions, int id) {
         // will make sure the change will be visible
         window.validate();
-        // will update the sorting algorithms variables(the actual list; what element is being moved at the moment; and what elements are being evaluated)
+        // will update the sorting algorithms variables(the actual list; what element being moved at the moment; and what elements are evaluated)
         window.updateBarBeingMoved(barBeingMovedPosition, id);
         window.updateBarBeingEvaluated(evaluatedBarPositions, id);
         window.updateList(list, id);
-        // will update the specific panel that contain the algorithm being updated
+        // will update the specific panel that contains the algorithm being updated
         window.refresh(id);
     }
 
