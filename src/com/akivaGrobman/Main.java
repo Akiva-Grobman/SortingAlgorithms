@@ -13,7 +13,7 @@ public class Main {
 
     /*
      *  This program is dependent on the sortNames array.
-     *  The display and backend are determined by the length and sort names in side it.
+     *  The display and backend are determined by the length and values in the sortNames array.
      *  Every new Algorithm that's added, should be represented in the sort names array. (preferably SortingAlgorithmName.class.getSimpleName() )
      */
 
